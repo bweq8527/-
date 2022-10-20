@@ -1,0 +1,147 @@
+1.Class.forName()
+驱动加载
+
+2.Connection <conn> = DriverManager.getConnection("","","")
+连接数据库
+参数：数据库地址、用户名、密码
+
+3.Statement statement = <conn>.createStatement();
+创建执行环境
+  ResultSet res1 = statement.executeQuery("<SQL Languages>");
+建立结果集，收集SQL语句的结果
+
+
+////////////////////////////////////////////////////
+
+    具体见 https://zhuanlan.zhihu.com/p/140885502
+
+////////////////////////////////////////////////////
+
+
+4..next()方法
+作用：指针指向下一条记录，有记录（有值）返回true并把记录内容存入到对应的对象中，也就是obj.next()的obj中。如果没有返回false。
+应用：一般和ResultSet对象和while循环一起使用，去迭代结果集，并在循环中调用getXXX(intfieldIndex)/getXXX(String columnName)方法获取字段值。
+
+  过程：ResultSet对象具有指向其当前数据行的指针。开始，指针被置于第一行。.next()方法将指针移动到下一行，然后while循环迭代遍历ResultSet对象。
+
+  while (obj.next()) {...}
+
+5.配置文件
+为提高代码复用性，要把源码中需要修改的部分代码“剥离”，写入额外的文件“db.properties”（配置文件），放在根目录src下
+属于资源文件，是一个Map集合的子接口
+注意：1》该文件内不能出现空格符
+     2》文件内的内容：
+     ”<键>=<值>“ 的组合
+     3》不能写注释
+
+6.文件与流（Stream）
+字节流与字符流
+
+JDBC_Utils.java要将源码封装，从配置文件中读入变量，考虑用流的形式读取配置文件并查找配置文件中各键的键值
+
+
+7.异常（Exception）
+出现无法解决的报错可以尝试用try(){}catch(){}
+
+8.静态语句块
+保证加载类的同时就执行该语句块内的语句
+
+9.private static VER
+封装成员变量，使其在类内部不同语句块内都有效
+
+10.要注意如果方法的返回值不为空，则在try{}和catch{}内都要写return语句
+
+
+11.释放资源
+关闭结果集对象、释放其内存
+
+
+12.封装的三个步骤：
+私有化全变量
+提供getter()、setter()方法
+提供构造方法
+
+
+其中：setter和getter的命名方案应遵循 Java Bean命名约定，如 getXxx() 和 setXxx()，其中 Xxx 变量的名称。例如，使用以下变量名：
+
+    private String name;
+
+
+   合适的setter和getter将是：
+
+    public void setName(String name) { }
+
+    public String getName() { }
+
+    如果变量的类型为boolean，则getter的名称可以为 isXXX() 或 getXXX()，但首选使用前者命名。例如：
+
+     private boolean single;
+
+     public String isSingle() { }
+
+
+13.回调方法
+
+public class XXX
+{
+...
+public VarType MethodName(IndexType IndexName)
+{
+...
+}
+
+return MethodName;
+}
+
+
+14.enum类，
+在第一行显式地列出7个枚举实例(枚举值)，系统会自动添加 public static final 修饰，故其实枚举值前省略了修饰符
+
+如果定义了非无参构造方法，则在列出枚举实例时要使枚举值符合构造方法
+如
+
+enum Word
+{
+A,B,C,D;
+}
+
+和
+
+enum Word
+{
+A("A",1),
+B("B",2),
+C("C",3),
+D("D",4);
+
+private String NAME;
+private int INDEX;
+
+public Word(String name,int index)
+{
+    this.NAME=name;
+    this.INDEX=index;
+}
+
+}
+
+
+详情见：https://www.jianshu.com/p/46dbd930f6a2
+
+
+14.2 注意一下Func_Select_1里的那个注释，很奇怪
+
+
+15.判断字符串是否一样：
+不能用“==”，否则一定会返回false
+要用.equals()方法
+如：
+
+Spring s1="asd";
+Spring s2="asd";
+Spring s3="asdawdawdawd";
+
+s1==s2:false
+s1==s3"false
+s1.equals(s2):true
+s1.equals(s3):false
